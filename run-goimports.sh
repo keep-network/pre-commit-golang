@@ -2,7 +2,9 @@
 #
 # Capture and print stdout, since gofmt doesn't use proper exit codes
 #
-set -e
+set -e -u -o pipefail # Fail on error
 
-output=$(goimports -w .)
-[[ -z "$output" ]]
+for file in "$@"; do
+    output=$(goimports -w $file)
+    [[ -z "$output" ]]
+done
