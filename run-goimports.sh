@@ -4,7 +4,6 @@
 #
 set -e -u -o pipefail # Fail on error
 
-for file in "$@"; do
-    output=$(goimports -w $file)
-    [[ -z "$output" ]]
-done
+exec 5>&1
+output="$(goimports -l -w "$@" | tee /dev/fd/5)"
+[[ -z "$output" ]]
