@@ -1,5 +1,10 @@
 #!/bin/bash
 set -e -u -o pipefail # Fail on error
-for file in "$@"; do
-    go vet $file
-done
+
+gitroot=$(git rev-parse --show-toplevel)
+
+GOPATH=$GOPATH:$gitroot
+
+cd $gitroot
+
+go vet ./...
