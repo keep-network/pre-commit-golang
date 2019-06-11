@@ -7,4 +7,7 @@ GOPATH=${GOPATH:-}:$gitroot
 
 cd $gitroot
 
-go vet ./...
+pkg=$(go list)
+for dir in $(echo $@|xargs -n1 dirname|sort -u); do
+  go vet $pkg/$dir
+done
